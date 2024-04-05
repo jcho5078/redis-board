@@ -28,7 +28,7 @@
     <delete id="deleteUserProfile">
         DELETE
         FROM user
-        WHERE userId = #{id}
+        WHERE id = #{id}
     </delete>
 
     <insert id="register" parameterType="com.study.board.dto.UserDTO">
@@ -45,7 +45,7 @@
                isWithDraw,
                status
         FROM user
-        WHERE id = #{id}
+        WHERE userId = #{userId}
           AND passWord = #{password}
           AND status != 'DELETE'
     </select>
