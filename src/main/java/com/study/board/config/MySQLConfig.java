@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 @MapperScan(basePackages = "com.study.board.mapper")
 public class MySQLConfig {
 
-    @Bean
+    /*@Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception{
         final SqlSessionFactoryBean sessionFactory  = new SqlSessionFactoryBean();
         sessionFactory .setDataSource(dataSource);
@@ -22,5 +22,5 @@ public class MySQLConfig {
         sessionFactory.setMapperLocations(resolver.getResources("classpath:mappers/*.xml"));
 
         return sessionFactory.getObject();
-    }
+    }*/
 }

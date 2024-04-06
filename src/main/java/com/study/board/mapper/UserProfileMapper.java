@@ -29,6 +29,4 @@ public interface UserProfileMapper {
     int idCheck(String id);
 
     public int updatePassword(UserDTO userDTO);
-
-    public int updateAddress(UserDTO userDTO);
 }

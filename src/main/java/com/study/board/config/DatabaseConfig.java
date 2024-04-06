@@ -10,9 +10,9 @@ import javax.sql.DataSource;
 @Configuration
 public class DatabaseConfig {
 
-    @ConfigurationProperties("spring.database")
+    /*@ConfigurationProperties("spring.database")
     @Bean
     public DataSource dataSource(){
         return DataSourceBuilder.create().build();
-    }
+    }*/
 }

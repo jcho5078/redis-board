@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: board
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
+  datasource:
+    url: jdbc:mariadb://localhost:3306/test
+    # url: jdbc:log4jdbc:mariadb://localhost:3306/test # for sql log
+    username: root
+    password: 1234
+    driver-class-name: org.mariadb.jdbc.Driver
+    # driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy # for sql log
+
+    #hikari:
+    #  driver-class-name: org.mariadb.jdbc.Driver
+    #  jdbc-url: ${spring.datasource.url}
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      #naming:
+      #physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    generate-ddl: true
+    properties:
+      hibernate:
+        #dialect: org.hibernate.dialect.MySQLDialect
+        #dialect: org.hibernate.dialect.DB2Dialect
+    database: default
+mybatis:
+  configuration:
+    multiple-result-sets-enabled: false
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+    jdbc-type-for-null: varchar
+    default-fetch-size: 500
+  mapper-locations:
+    - classpath:mappers/*.xml
+
+logging:
+  level:
+    com:
+      zaxxer:
+        hikari: INFO
+    javax:
+      sql:
+        DataSource: OFF
+    jdbc:
+      audit: OFF # JDBC 트러블슈팅 경우를 제외하고는 사용 권장 X
+      resultset: OFF # ResultSet을 포함한 모든 JDBC 호출 정보를 출력
+      resultsettable: INFO  #SQL 결과 데이터 Table형식으로 출력
+      sqlonly: OFF     #SQL만 로그만 출력
+      sqltiming: INFO    #SQL + 소요시간 출력
+      connection: OFF  # 커넥션 연결/종료 정보 출력

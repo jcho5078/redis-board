@@ -40,20 +40,20 @@ public class UserController {
         String userId = loginRequest.getUserId();
         String password = loginRequest.getPassword();
         UserDTO userInfo = userService.login(userId, password);
-        String id = userInfo.getId().toString();
+        String userNo = userInfo.getUserNo().toString();
 
         if (userInfo == null) {
             return HttpStatus.NOT_FOUND;
         } else if (userInfo != null) {
             LoginResponse loginResponse = LoginResponse.success(userInfo);
             if (userInfo.getStatus() == (UserDTO.Status.ADMIN))
-                SessionUtil.setLoginAdminId(session, id);
+                SessionUtil.setLoginAdminId(session, userNo);
             else
-                SessionUtil.setLoginMemberId(session, id);
+                SessionUtil.setLoginMemberId(session, userNo);
 
             responseEntity = new ResponseEntity<LoginResponse>(loginResponse, HttpStatus.OK);
         } else {
-            throw new RuntimeException("Login Error! 유저 정보가 없거나 지워진 유저 정보입니다.");
+            throw new RuntimeException("Login Error! 유저 정보 없음.");
         }
 
         return HttpStatus.OK;

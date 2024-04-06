@@ -6,23 +6,23 @@
 <mapper namespace="com.study.board.mapper.PostMapper">
 
     <insert id="register" parameterType="com.study.board.dto.PostDTO">
-        INSERT INTO post (name, isAdmin, contents, createTime, views, categoryId, userId, fileId, updateTime )
-        VALUES (#{name}, #{isAdmin}, #{contents}, #{createTime}, #{views}, #{categoryId}, #{userId}, #{fileId}, #{updateTime})
+        INSERT INTO post (name, is_admin, contents, create_time, views, category_id, user_id, file_id, update_time )
+        VALUES (#{name}, #{isAdmin}, #{contents}, #{createTime}, #{views}, #{categoryId}, #{userNo}, #{fileId}, #{updateTime})
     </insert>
 
     <select id="selectMyProducts" resultType="com.study.board.dto.PostDTO">
-        SELECT id,
+        SELECT post_id,
                name,
-               isAdmin,
+               is_admin,
                contents,
-               createTime,
+               create_time,
                views,
-               categoryId,
-               userId,
-               fileId,
-               updateTime
+               category_id,
+               user_id,
+               file_id,
+               update_time
         FROM post
-        WHERE userId = #{userId}
+        WHERE user_id = #{userId}
     </select>
 
     <update id="updateProducts" parameterType="com.study.board.dto.PostDTO">
@@ -30,16 +30,16 @@
         SET name = #{name},
             contents = #{contents},
             views = #{views},
-            categoryId = #{categoryId},
-            userId = #{userId},
-            fileId = #{fileId},
-            updateTime = #{updateTime}
-        WHERE id = #{id}
+            category_id = #{categoryId},
+            user_id = #{userId},
+            file_id = #{fileId},
+            update_time = #{updateTime}
+        WHERE post_id = #{postId}
     </update>
 
     <delete id="deleteProduct" >
         DELETE FROM post
-        WHERE id = #{productId}
+        WHERE post_id = #{postId}
     </delete>
 
 </mapper>

@@ -6,74 +6,75 @@
 <mapper namespace="com.study.board.mapper.UserProfileMapper">
 
     <select id="getUserProfile" resultType="com.study.board.dto.UserDTO">
-        SELECT id, userId, password, nickName, createTime, isWithDraw, status
-        FROM user
-        WHERE id = #{id}
+        SELECT user_no, user_id, password, nickname, create_time
+             , is_with_draw, status
+        FROM t_user
+        WHERE user_no = #{userNo}
     </select>
 
     <insert id="insertUserProfile" parameterType="com.study.board.dto.UserDTO">
-        INSERT INTO user (userId, passWord, nickName, isWithDraw, status, isAdmin)
-        VALUES (#{userId}, #{password}, #{nickName}, #{isWithDraw}, #{status}, #{isAdmin})
+        INSERT INTO t_user (user_id, password, nickname, is_with_draw, status, isAdmin)
+        VALUES (#{userId}, #{password}, #{nickname}, #{isWithDraw}, #{status}, #{isAdmin})
     </insert>
 
     <update id="updateUserProfile" parameterType="com.study.board.dto.UserDTO">
-        UPDATE user
+        UPDATE t_user
         SET password=#{password},
-            nickName=#{nickName},
-            isWithDraw=#{isWithDraw},
+            nickname=#{nickname},
+            is_with_draw=#{isWithDraw},
             status=#{status}
-        WHERE id = #{id}
+        WHERE user_no = #{userNo}
     </update>
 
     <delete id="deleteUserProfile">
         DELETE
-        FROM user
-        WHERE id = #{id}
+        FROM t_user
+        WHERE user_no = #{id}
     </delete>
 
     <insert id="register" parameterType="com.study.board.dto.UserDTO">
-        INSERT INTO user (userId, passWord, nickName, createTime, isWithDraw, status)
-        VALUES (#{userId}, #{password}, #{nickName}, #{createTime}, #{isWithDraw}, #{status})
+        INSERT INTO t_user (user_id, password, nickname, create_time, is_with_draw, status)
+        VALUES (#{userId}, #{password}, #{nickname}, #{createTime}, #{isWithDraw}, #{status})
     </insert>
 
     <select id="findByIdAndPassword" resultType="com.study.board.dto.UserDTO">
-        SELECT id,
-               userId,
-               passWord,
-               nickName,
-               createTime,
-               isWithDraw,
+        SELECT user_no,
+               user_id,
+               password,
+               nickname,
+               create_time,
+               is_with_draw,
                status
-        FROM user
-        WHERE userId = #{userId}
-          AND passWord = #{password}
+        FROM t_user
+        WHERE user_id = #{userId}
+          AND password = #{password}
           AND status != 'DELETE'
     </select>
 
     <select id="findByUserIdAndPassword" resultType="com.study.board.dto.UserDTO">
-        SELECT id,
-               userId,
-               passWord,
-               nickName,
-               createTime,
-               isWithDraw,
+        SELECT user_no,
+               user_id,
+               password,
+               nickname,
+               create_time,
+               is_with_draw,
                status
-        FROM user
-        WHERE userId = #{userId}
-          AND passWord = #{password}
+        FROM t_user
+        WHERE user_id = #{userId}
+          AND password = #{password}
           AND status != 'DELETE'
     </select>
 
     <select id="idCheck" resultType="int">
-        SELECT COUNT(id)
-        FROM user
-        WHERE userId = #{userId}
+        SELECT COUNT(user_no)
+        FROM t_user
+        WHERE user_id = #{userId}
     </select>
 
     <update id="updatePassword" parameterType="com.study.board.dto.UserDTO">
-        UPDATE user
-        SET passWord = #{password}
-        WHERE userId = #{userId}
+        UPDATE t_user
+        SET password = #{password}
+        WHERE user_id = #{userId}
     </update>
 
 </mapper>
