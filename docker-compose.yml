@@ -2,7 +2,7 @@ version: "v1"
 services:
   db:
     image: mariadb:10
-    container_name: mysql
+    container_name: mariadb
     ports:
       - 3306:3306
     environment:
