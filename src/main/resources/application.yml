@@ -27,6 +27,21 @@ spring:
         #dialect: org.hibernate.dialect.MySQLDialect
         #dialect: org.hibernate.dialect.DB2Dialect
     database: default
+
+    # redis
+  cache:
+    type: redis
+  data:
+    redis:
+      host: redis_boot
+      port: 6379
+      password:
+      repositories:
+        enabled: false
+expire:
+  defaultTime: 36288000
+
+# mybatis
 mybatis:
   configuration:
     multiple-result-sets-enabled: false
@@ -36,6 +51,7 @@ mybatis:
     default-fetch-size: 500
   mapper-locations:
     - classpath:mappers/*.xml
+
 
 logging:
   level:
