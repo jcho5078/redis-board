@@ -1,5 +1,6 @@
 package com.study.board.service.impl;
 
+import com.study.board.domain.post.PostRepository;
 import com.study.board.dto.PostDTO;
 import com.study.board.dto.UserDTO;
 import com.study.board.mapper.PostMapper;
@@ -21,46 +22,49 @@ public class PostServiceImpl implements PostService {
     private PostMapper postMapper;
 
     @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
     private UserProfileMapper userProfileMapper;
 
     @CacheEvict(value="getProducts", allEntries = true)
     @Override
     public void register(String id, PostDTO postDTO) {
         UserDTO memberInfo = userProfileMapper.getUserProfile(id);
-        postDTO.setUserId(memberInfo.getId());
+        postDTO.setUserNo(memberInfo.getUserNo());
         postDTO.setCreateTime(new Date());
 
         if (memberInfo != null) {
-            postMapper.register(postDTO);
+            postRepository.save(postDTO.toEntity());
         } else {
             log.error("register ERROR! {}", postDTO);
-            throw new RuntimeException("register ERROR! 상품 등록 메서드를 확인요망\n" + "Params : " + postDTO);
+            throw new RuntimeException("register ERROR! post 등록 메서드 확인요망\n" + "Params : " + postDTO);
         }
     }
 
     @Override
-    public List<PostDTO> getMyProducts(int accountId) {
-        List<PostDTO> postDTOList = postMapper.selectMyProducts(accountId);
+    public List<PostDTO> getMyPosts(long accountId) {
+        List<PostDTO> postDTOList = postMapper.selectMyPosts(accountId);
         return postDTOList;
     }
 
     @Override
-    public void updateProducts(PostDTO postDTO) {
-        if (postDTO != null && postDTO.getId() != 0 && postDTO.getUserId() != 0) {
-            postMapper.updateProducts(postDTO);
+    public void updatePost(PostDTO postDTO) {
+        if (postDTO != null && postDTO.getPostNo() != 0 && postDTO.getUserNo() != 0) {
+            postMapper.updatePost(postDTO);
         } else {
             log.error("updateProducts ERROR! {}", postDTO);
-            throw new RuntimeException("updateProducts ERROR! 물품 변경 메서드를 확인요망\n" + "Params : " + postDTO);
+            throw new RuntimeException("updateProducts ERROR! post 수정 메서드 확인요망\n" + "Params : " + postDTO);
         }
     }
 
     @Override
-    public void deleteProduct(int userId, int productId) {
-        if (userId != 0 && productId != 0) {
-            postMapper.deleteProduct(productId);
+    public void deletePost(long userNo, long postNo) {
+        if (userNo != 0 && postNo != 0) {
+            postMapper.deletePost(userNo, postNo);
         } else {
-            log.error("deleteProudct ERROR! {}", productId);
-            throw new RuntimeException("updateProducts ERROR! 물품 삭제 메서드를 확인요망\n" + "Params : " + productId);
+            log.error("delete Post ERROR! {}", postNo);
+            throw new RuntimeException("update Post ERROR! post 삭제 메서드 확인요망\n" + "Params : " + postNo);
         }
     }
 }

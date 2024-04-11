@@ -18,6 +18,10 @@ import java.util.Date;
 @Builder
 public class User {
 
+    public User(long userNo){
+        this.userNo = userNo;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_no")
@@ -40,7 +44,7 @@ public class User {
     @ColumnDefault(value = "'Y'")
     private boolean isWithDraw;
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING) // not good for performance
+    @Column(name = "status", length = 15, columnDefinition = "varchar(15) default 'DEFAULT'", insertable = false)
+    @Enumerated(EnumType.STRING)
     private UserDTO.Status status;
 }

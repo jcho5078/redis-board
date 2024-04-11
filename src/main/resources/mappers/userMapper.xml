@@ -32,12 +32,7 @@
         WHERE user_no = #{id}
     </delete>
 
-    <insert id="register" parameterType="com.study.board.dto.UserDTO">
-        INSERT INTO t_user (user_id, password, nickname, create_time, is_with_draw, status)
-        VALUES (#{userId}, #{password}, #{nickname}, #{createTime}, #{isWithDraw}, #{status})
-    </insert>
-
-    <select id="findByIdAndPassword" resultType="com.study.board.dto.UserDTO">
+    <select id="findByUserNoAndPassword" resultType="com.study.board.dto.UserDTO">
         SELECT user_no,
                user_id,
                password,
@@ -46,7 +41,7 @@
                is_with_draw,
                status
         FROM t_user
-        WHERE user_id = #{userId}
+        WHERE user_no = #{userNo}
           AND password = #{password}
           AND status != 'DELETE'
     </select>

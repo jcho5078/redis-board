@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
         userDTO.setCreateTime(new Date());
         userDTO.setPassword(SHA256Util.encryptSHA256(userDTO.getPassword()));
 
-        //int insertCount = userProfileMapper.register(userDTO);
         User user = userDTO.toEntity();
         userRepository.save(user);
 
@@ -63,7 +62,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePassword(String id, String beforePassword, String afterPassword) {
         String cryptoPassword = SHA256Util.encryptSHA256(beforePassword);
-        UserDTO memberInfo = userProfileMapper.findByIdAndPassword(id, cryptoPassword);
+        UserDTO memberInfo = userProfileMapper.findByUserNoAndPassword(id, cryptoPassword);
 
         if (memberInfo != null) {
             memberInfo.setPassword(SHA256Util.encryptSHA256(afterPassword));
@@ -77,7 +76,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteId(String id, String passWord) {
         String cryptoPassword = SHA256Util.encryptSHA256(passWord);
-        UserDTO memberInfo = userProfileMapper.findByIdAndPassword(id, cryptoPassword);
+        UserDTO memberInfo = userProfileMapper.findByUserNoAndPassword(id, cryptoPassword);
 
         if (memberInfo != null) {
             userProfileMapper.deleteUserProfile(memberInfo.getUserId());

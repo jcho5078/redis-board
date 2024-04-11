@@ -7,9 +7,9 @@ import java.util.List;
 public interface PostService {
     void register(String id, PostDTO postDTO);
 
-    List<PostDTO> getMyProducts(int accountId);
+    List<PostDTO> getMyPosts(long accountId);
 
-    void updateProducts(PostDTO postDTO);
+    void updatePost(PostDTO postDTO);
 
-    void deleteProduct(int userId, int productId);
+    void deletePost(long userNo, long postNo);
 }

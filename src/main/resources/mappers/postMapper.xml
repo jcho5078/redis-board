@@ -5,41 +5,37 @@
 
 <mapper namespace="com.study.board.mapper.PostMapper">
 
-    <insert id="register" parameterType="com.study.board.dto.PostDTO">
-        INSERT INTO post (name, is_admin, contents, create_time, views, category_id, user_id, file_id, update_time )
-        VALUES (#{name}, #{isAdmin}, #{contents}, #{createTime}, #{views}, #{categoryId}, #{userNo}, #{fileId}, #{updateTime})
-    </insert>
-
-    <select id="selectMyProducts" resultType="com.study.board.dto.PostDTO">
-        SELECT post_id,
+    <select id="selectMyPosts" resultType="com.study.board.dto.PostDTO">
+        SELECT post_no,
                name,
                is_admin,
                contents,
                create_time,
                views,
                category_id,
-               user_id,
+               user_no,
                file_id,
                update_time
-        FROM post
-        WHERE user_id = #{userId}
+        FROM t_post
+        WHERE user_no = #{userNo}
     </select>
 
-    <update id="updateProducts" parameterType="com.study.board.dto.PostDTO">
-        UPDATE post
+    <update id="updatePost" parameterType="com.study.board.dto.PostDTO">
+        UPDATE t_post
         SET name = #{name},
             contents = #{contents},
             views = #{views},
             category_id = #{categoryId},
-            user_id = #{userId},
+            user_no = #{userNo},
             file_id = #{fileId},
             update_time = #{updateTime}
-        WHERE post_id = #{postId}
+        WHERE post_no = #{postNo}
     </update>
 
-    <delete id="deleteProduct" >
-        DELETE FROM post
-        WHERE post_id = #{postId}
+    <delete id="deletePost" >
+        DELETE FROM t_post
+        WHERE post_no = #{postNo}
+            AND user_no = #{userNo}
     </delete>
 
 </mapper>

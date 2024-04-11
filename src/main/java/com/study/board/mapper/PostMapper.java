@@ -9,11 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface PostMapper {
-    public int register(PostDTO postDTO);
+    public List<PostDTO> selectMyPosts(long accountId);
 
-    public List<PostDTO> selectMyProducts(int accountId);
+    public void updatePost(PostDTO postDTO);
 
-    public void updateProducts(PostDTO postDTO);
-
-    public void deleteProduct(int productId);
+    public void deletePost(long userNo, long postNo);
 }
