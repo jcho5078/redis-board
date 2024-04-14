@@ -24,6 +24,8 @@ public class PostDTO {
     private int fileId;
     private Date updateTime;
 
+    private String sessionId;
+
     public Post toEntity(){
         Post post = new Post().builder()
                 .name(this.name)

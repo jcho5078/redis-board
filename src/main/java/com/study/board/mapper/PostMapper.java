@@ -11,6 +11,8 @@ import java.util.List;
 public interface PostMapper {
     public List<PostDTO> selectMyPosts(long accountId);
 
+    public List<PostDTO> selectPosts(PostDTO postDTO);
+
     public void updatePost(PostDTO postDTO);
 
     public void deletePost(long userNo, long postNo);

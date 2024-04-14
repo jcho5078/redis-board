@@ -9,6 +9,7 @@ import com.study.board.service.PostService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -43,10 +44,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Cacheable(value = "getProducts", key = "'getProducts' + #accountId")
     public List<PostDTO> getMyPosts(long accountId) {
         List<PostDTO> postDTOList = postMapper.selectMyPosts(accountId);
         return postDTOList;
     }
+
+    @Override
+    @Cacheable(value = "getProducts", key = "'getProducts' + #postDTO.getSessionId()")
+    public List<PostDTO> getPosts(PostDTO postDTO) {
+        List<PostDTO> postDTOList = postMapper.selectPosts(postDTO);
+        return postDTOList;
+    }
+
 
     @Override
     public void updatePost(PostDTO postDTO) {

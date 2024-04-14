@@ -7,6 +7,7 @@ import com.study.board.dto.UserDTO;
 import com.study.board.dto.response.CommonResponse;
 import com.study.board.service.PostService;
 import com.study.board.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,8 @@ public class PostController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @LoginCheck(type = LoginCheck.UserType.USER)
-    public ResponseEntity<CommonResponse<PostDTO>> registerPost(String accountId, @RequestBody PostDTO postDTO) {
+    public ResponseEntity<CommonResponse<PostDTO>> registerPost(String accountId, @RequestBody PostDTO postDTO, HttpSession session) {
+        postDTO.setSessionId(session.getId());
         postService.register(accountId, postDTO);
         CommonResponse commonResponse = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "registerPost", postDTO);
         return ResponseEntity.ok(commonResponse);
@@ -41,6 +43,16 @@ public class PostController {
     public ResponseEntity<CommonResponse<List<PostDTO>>> myPostInfo(String accountId) {
         UserDTO memberInfo = userService.getUserInfo(accountId);
         List<PostDTO> postDTOList = postService.getMyPosts(memberInfo.getUserNo());
+        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "SUCCESS", "myPostInfo", postDTOList);
+        return ResponseEntity.ok(commonResponse);
+    }
+
+    @GetMapping("posts")
+    public ResponseEntity<CommonResponse<List<PostDTO>>> getPosts(PostDTO postDTO, HttpSession session){
+        String sessionId = session.getId();
+        postDTO.setSessionId(sessionId);
+
+        List<PostDTO> postDTOList = postService.getPosts(postDTO);
         CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "SUCCESS", "myPostInfo", postDTOList);
         return ResponseEntity.ok(commonResponse);
     }
