@@ -25,7 +25,7 @@ public class Post {
     private long postNo;
 
     @Column()
-    private String name;
+    private String title;
 
     @Column()
     @Convert(converter = BooleanConverter.class)

@@ -53,7 +53,7 @@ public class PostController {
         postDTO.setSessionId(sessionId);
 
         List<PostDTO> postDTOList = postService.getPosts(postDTO);
-        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "SUCCESS", "myPostInfo", postDTOList);
+        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "SUCCESS", "getPosts", postDTOList);
         return ResponseEntity.ok(commonResponse);
     }
 

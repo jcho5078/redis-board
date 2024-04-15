@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class PostDTO {
     private long postNo;
-    private String name;
+    private String title;
     private boolean isAdmin;
     private String contents;
     private Date createTime;
@@ -28,7 +28,7 @@ public class PostDTO {
 
     public Post toEntity(){
         Post post = new Post().builder()
-                .name(this.name)
+                .title(this.title)
                 .isAdmin(this.isAdmin)
                 .contents(this.contents)
                 .createTime(this.createTime)

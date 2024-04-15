@@ -7,7 +7,7 @@
 
     <select id="selectMyPosts" resultType="com.study.board.dto.PostDTO">
         SELECT post_no,
-               name,
+               title,
                is_admin,
                contents,
                create_time,
@@ -22,7 +22,7 @@
 
     <select id="selectPosts" resultType="com.study.board.dto.PostDTO">
         SELECT post_no,
-               name,
+               title,
                is_admin,
                contents,
                create_time,
@@ -36,8 +36,8 @@
         <if test="postNo != null and postNo != ''">
             AND post_no = #{postNo}
         </if>
-        <if test="name != null and name != ''">
-            AND name = #{name}
+        <if test="title != null and title != ''">
+            AND title = #{title}
         </if>
         <if test="createTime != null and createTime != ''">
             AND create_time LIKE CONCAT('%', #{createTime}, '%')
@@ -46,7 +46,7 @@
 
     <update id="updatePost" parameterType="com.study.board.dto.PostDTO">
         UPDATE t_post
-        SET name = #{name},
+        SET title = #{title},
             contents = #{contents},
             views = #{views},
             category_id = #{categoryId},
