@@ -1,3 +1,4 @@
+
 spring:
   application:
     name: board
@@ -26,7 +27,7 @@ spring:
       hibernate:
         #dialect: org.hibernate.dialect.MySQLDialect
         #dialect: org.hibernate.dialect.DB2Dialect
-    database: default
+    database: mysql
 
     # redis
   cache:
@@ -68,3 +69,5 @@ logging:
       sqlonly: OFF     #SQL만 로그만 출력
       sqltiming: INFO    #SQL + 소요시간 출력
       connection: OFF  # 커넥션 연결/종료 정보 출력
+server:
+  port: 8090
