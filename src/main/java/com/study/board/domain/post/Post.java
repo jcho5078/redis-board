@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.util.Date;
 
@@ -17,6 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Builder
+@RedisHash("t_post")
 public class Post {
 
     @Id

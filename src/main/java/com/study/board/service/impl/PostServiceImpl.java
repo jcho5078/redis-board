@@ -1,5 +1,6 @@
 package com.study.board.service.impl;
 
+import com.study.board.domain.post.Post;
 import com.study.board.domain.post.PostRepository;
 import com.study.board.dto.PostDTO;
 import com.study.board.dto.UserDTO;
@@ -10,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -28,15 +30,24 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private UserProfileMapper userProfileMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private RedisTemplate objectRedisTemplate;
+
+    private RedisTemplate<String, Post> postRedisTemplate = redisTemplate;
+
     @CacheEvict(value="getProducts", allEntries = true)
     @Override
     public void register(String id, PostDTO postDTO) {
         UserDTO memberInfo = userProfileMapper.getUserProfile(id);
         postDTO.setUserNo(memberInfo.getUserNo());
         postDTO.setCreateTime(new Date());
+        Post post = postDTO.toEntity();
 
         if (memberInfo != null) {
-            postRepository.save(postDTO.toEntity());
+            postRepository.save(post);
         } else {
             log.error("register ERROR! {}", postDTO);
             throw new RuntimeException("register ERROR! post 등록 메서드 확인요망\n" + "Params : " + postDTO);
@@ -47,6 +58,21 @@ public class PostServiceImpl implements PostService {
     @Cacheable(value = "getProducts", key = "'getProducts' + #accountId")
     public List<PostDTO> getMyPosts(long accountId) {
         List<PostDTO> postDTOList = postMapper.selectMyPosts(accountId);
+
+        return postDTOList;
+    }
+
+    @Override
+    public List<PostDTO> getMyPosts2(long accountId) {
+        List<PostDTO> postDTOList = (List<PostDTO>) postRedisTemplate.opsForValue().get("getProducts"+accountId);
+        //List<PostDTO> postDTOList = (List<PostDTO>) objectRedisTemplate.opsForValue().get("getProducts"+accountId);
+
+        if(postDTOList != null){
+            return postDTOList;
+        }
+        postDTOList = postMapper.selectMyPosts(accountId);
+        objectRedisTemplate.opsForValue().set("getProducts"+accountId, postDTOList);
+
         return postDTOList;
     }
 

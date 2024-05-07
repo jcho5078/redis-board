@@ -43,6 +43,7 @@ public class PostController {
     public ResponseEntity<CommonResponse<List<PostDTO>>> myPostInfo(String accountId) {
         UserDTO memberInfo = userService.getUserInfo(accountId);
         List<PostDTO> postDTOList = postService.getMyPosts(memberInfo.getUserNo());
+        //List<PostDTO> postDTOListTest = postService.getMyPosts2(memberInfo.getUserNo());
         CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "SUCCESS", "myPostInfo", postDTOList);
         return ResponseEntity.ok(commonResponse);
     }

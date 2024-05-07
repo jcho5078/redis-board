@@ -9,6 +9,8 @@ public interface PostService {
 
     List<PostDTO> getMyPosts(long accountId);
 
+    List<PostDTO> getMyPosts2(long accountId);
+
     List<PostDTO> getPosts(PostDTO postDTO);
 
     void updatePost(PostDTO postDTO);

@@ -9,6 +9,7 @@ import com.study.board.service.UserService;
 import com.study.board.util.SHA256Util;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     public void register(UserDTO userDTO) {
@@ -46,6 +50,9 @@ public class UserServiceImpl implements UserService {
     public UserDTO login(String id, String password) {
         String cryptoPassword = SHA256Util.encryptSHA256(password);
         UserDTO memberInfo = userProfileMapper.findByUserIdAndPassword(id, cryptoPassword);
+
+        redisTemplate.convertAndSend("board:user:session", memberInfo.getNickName() + " 접속.");
+
         return memberInfo;
     }
 

@@ -5,6 +5,7 @@ import com.study.board.util.BooleanConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.util.Date;
 
@@ -16,6 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Builder
+@RedisHash("t_user")
 public class User {
 
     public User(long userNo){
